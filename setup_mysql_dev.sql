@@ -1,9 +1,6 @@
 -- Create development database
 CREATE DATABASE IF NOT EXISTS hbnb_dev_db;
 
--- select dev database
-USE hbnb_dev_db;
-
 -- Create development user
 CREATE USER IF NOT EXISTS 'hbnb_dev'@'localhost' IDENTIFIED BY 'hbnb_dev_pwd';
 
