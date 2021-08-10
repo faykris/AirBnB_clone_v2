@@ -2,6 +2,7 @@
 """ DB Module for HBNB project """
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from models.base_model import Base
 import os
 from models.user import User
 from models.state import State
@@ -25,14 +26,14 @@ class DBStorage:
 
     def __init__(self):
         """Class constructor"""
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:/{}'.
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.
                                       format(uname, upass, host, db),
                                       pool_pre_ping=True)
 
         if u_env == "test":
-            Base.metadata.drop_all(engine)
+            Base.metadata.drop_all(self.__engine)
 
-    def all(self, cls=None)
+    def all(self, cls=None):
         """Return all obj of a class"""
         query_dict = {}
         if cls == None:
@@ -65,6 +66,6 @@ class DBStorage:
 
     def reload(self):
         """Make tables and make a session"""
-        Base.metadata.create_all(engine)
+        Base.metadata.create_all(self.__engine)
         Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         self.__session = Session()
