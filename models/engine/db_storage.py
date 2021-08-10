@@ -16,6 +16,7 @@ upass = os.environ.get('HBNB_MYSQL_PWD')
 host = os.environ.get('HBNB_MYSQL_HOST')
 db = os.environ.get('HBNB_MYSQL_DB')
 u_env = os.environ.get('HBNB_ENV')
+t_sto = os.environ.get('HBNB_TYPE_STORAGE')
 
 class DBStorage:
     """DataBase Manager"""
