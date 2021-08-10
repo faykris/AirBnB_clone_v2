@@ -13,4 +13,5 @@ GRANT ALL PRIVILEGES ON hbnb_dev.* TO 'hbnb_dev'@'localhost';
 -- select performance_schema database
 USE performance_schema;
 
+-- Grant select privileges for dev user in performance_schema database
 GRANT SELECT ON performance_schema.* TO 'hbnb_dev'@'localhost';
