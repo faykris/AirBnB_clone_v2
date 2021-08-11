@@ -18,6 +18,7 @@ host = os.environ.get('HBNB_MYSQL_HOST')
 db = os.environ.get('HBNB_MYSQL_DB')
 u_env = os.environ.get('HBNB_ENV')
 
+
 class DBStorage:
     """DataBase Manager"""
     __engine = None
@@ -62,7 +63,7 @@ class DBStorage:
 
     def delete(self, obj=None):
         """Delete an obj"""
-        if obj not None:
+        if obj is not None:
             sql = self.__session.delete(obj)
 
     def reload(self):
