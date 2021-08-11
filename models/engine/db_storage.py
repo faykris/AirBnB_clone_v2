@@ -17,7 +17,6 @@ upass = os.environ.get('HBNB_MYSQL_PWD')
 host = os.environ.get('HBNB_MYSQL_HOST')
 db = os.environ.get('HBNB_MYSQL_DB')
 u_env = os.environ.get('HBNB_ENV')
-t_sto = os.environ.get('HBNB_TYPE_STORAGE')
 
 class DBStorage:
     """DataBase Manager"""
@@ -31,24 +30,26 @@ class DBStorage:
                                       pool_pre_ping=True)
 
         if u_env == "test":
-            Base.metadata.drop_all(self.__engine)
+            Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
         """Return all obj of a class"""
         query_dict = {}
-        if cls == None:
-            sql = self.__session.query(State, User, City, Amenity,
-                                       Place, Review)
-            result = sql.all()
+        classes = {
+                    'State': State, 'City': City
+                  }
+        if cls is None:
+            for key, _class in classes.items():
+                result = self.__session.query(_class).all()
+                for obj in result:
+                    key = obj.__class__.__name__ + "." + obj.id
+                    query_dict[key] = obj
+        elif cls in classes.keys():
+            result = self.__session.query(classes[cls]).all()
             for obj in result:
                 key = obj.__class__.__name__ + "." + obj.id
                 query_dict[key] = obj
-        else:
-            sql = self.__session.query(cls)
-            result = sql.all()
-            for obj in result:
-                key = obj.__class__.__name__ + "." + obj.id
-                query_dict[key] = obj
+
         return query_dict
 
     def new(self, obj):
@@ -61,7 +62,7 @@ class DBStorage:
 
     def delete(self, obj=None):
         """Delete an obj"""
-        if obj:
+        if obj not None:
             sql = self.__session.delete(obj)
 
     def reload(self):
