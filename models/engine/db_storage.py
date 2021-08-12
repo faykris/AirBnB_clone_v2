@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ DB Module for HBNB project """
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 from models.base_model import Base
 import os
 from models.user import User
@@ -46,12 +46,12 @@ class DBStorage:
                 for obj in result:
                     key = obj.__class__.__name__ + "." + obj.id
                     query_dict[key] = obj
-        elif cls in classes.keys():
-            result = self.__session.query(classes[cls]).all()
+        elif cls in classes.values():
+            result = self.__session.query(cls).all()
             for obj in result:
                 key = obj.__class__.__name__ + "." + obj.id
+                del obj.__dict__['_sa_instance_state']
                 query_dict[key] = obj
-
         return query_dict
 
     def new(self, obj):
@@ -70,5 +70,6 @@ class DBStorage:
     def reload(self):
         """Make tables and make a session"""
         Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session_m = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(Session_m)
         self.__session = Session()
