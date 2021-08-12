@@ -37,7 +37,8 @@ class DBStorage:
         """Return all obj of a class"""
         query_dict = {}
         classes = {
-                    'State': State, 'City': City
+                    'State': State, 'City': City, 'User': User,
+                    'Place': Place, 'Review': Review, 'Amenity': Amenity
                   }
         if cls is None:
             for key, _class in classes.items():

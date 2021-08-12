@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
+<<<<<<< HEAD
 import models
 from models.city import City
+=======
+>>>>>>> 4d81c127a453772ada34675c518592fc7e29efef
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
