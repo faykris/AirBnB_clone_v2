@@ -228,11 +228,10 @@ class HBNBCommand(cmd.Cmd):
             print(all_list)
             return
         else:
-            if args not in ["BaseModel", "User", "State",
-                            "City", "Amenity", "Place", "Review"]:
+            if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            all_objs = storage.all(args)
+            all_objs = storage.all(HBNBCommand.classes[args])
             for obj in all_objs.values():
                 if obj.__class__.__name__ == args:
                     all_list.append(str(obj))
