@@ -5,6 +5,7 @@ import sys
 import json
 from models.base_model import BaseModel
 from models.__init__ import storage
+import models
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -143,8 +144,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             new_instance = HBNBCommand.classes[args]()
         print(new_instance.id)
-        storage.new(new_instance)
-        storage.save()
+        new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
