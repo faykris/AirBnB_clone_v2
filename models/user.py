@@ -12,8 +12,8 @@ class User(BaseModel, Base):
     __tablename__ = "users"
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
-    first_name = Column(String(128), nullable=False)
-    last_name = Column(String(128), nullable=False)
+    first_name = Column(String(128))
+    last_name = Column(String(128))
     # place = relationship("Place", backref='user')
     # reviews = relationship("Review", backref='place')
     if storage_type != 'db':
