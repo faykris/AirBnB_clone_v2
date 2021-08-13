@@ -2,12 +2,23 @@
 """ Place Module for HBNB project """
 from models.review import Review
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, ForeignKey,\
+    Table
 from sqlalchemy.orm import relationship
 import os
 
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
+place_amenity = Table('place_amenity', Base.metadata,
+                      Column('place_id', String(60),
+                             ForeignKey('places.id'),
+                             primary_key=True,
+                             nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True,
+                             nullable=False)
+                      )
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -26,6 +37,9 @@ class Place(BaseModel, Base):
         reviews = relationship("Review",
                                backref="places",
                                cascade="all, delete, delete-orphan")
+        amenities = relationship("Amenity",
+                                 secondary=place_amenity,
+                                 viewonly=False)
     else:
         @property
         def reviews(self):
