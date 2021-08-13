@@ -173,9 +173,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-        key = c_name + "." + c_id
-
-        elements = storage.all(c_name)
+        elements = storage.all(HBNBCommand.classes[c_name])
         for obj in elements.values():
             if obj.id == c_id:
                 print(obj)
