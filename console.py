@@ -174,10 +174,13 @@ class HBNBCommand(cmd.Cmd):
             return
 
         key = c_name + "." + c_id
-        try:
-            print(storage._FileStorage__objects[key])
-        except KeyError:
-            print("** no instance found **")
+
+        elements = storage.all(c_name)
+        for obj in elements.values():
+            if obj.id == c_id:
+                print(obj)
+                return
+        print("** no instance found **")
 
     def help_show(self):
         """ Help information for the show command """
