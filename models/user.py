@@ -7,18 +7,16 @@ import os
 
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
-
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
     __tablename__ = "users"
-    if storage_type == 'db':
-        email = Column(String(128), nullable=False)
-        password = Column(String(128), nullable=False)
-        first_name = Column(String(128), nullable=False)
-        last_name = Column(String(128), nullable=False)
-        # place = relationship("Place", backref='user')
-        # reviews = relationship("Review", backref='place')
-    else:
+    email = Column(String(128), nullable=False)
+    password = Column(String(128), nullable=False)
+    first_name = Column(String(128), nullable=False)
+    last_name = Column(String(128), nullable=False)
+    # place = relationship("Place", backref='user')
+    # reviews = relationship("Review", backref='place')
+    if storage_type != 'db':
         email = ''
         password = ''
         first_name = ''
