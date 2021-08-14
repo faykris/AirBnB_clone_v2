@@ -1,11 +1,14 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-from models.review import Review
+import os
+from models import amenity
 from models.base_model import BaseModel, Base
+from models.review import Review
+from models.amenity import Amenity
 from sqlalchemy import Column, String, Integer, Float, ForeignKey,\
     Table
 from sqlalchemy.orm import relationship
-import os
+
 
 storage_type = os.environ.get('HBNB_TYPE_STORAGE')
 
@@ -52,4 +55,24 @@ class Place(BaseModel, Base):
             for review in all_reviews.values():
                 if review.place_id == self.id:
                     tmp_reviews.append(review)
-            return
+            return tmp_reviews
+
+        @property
+        def amenities(self):
+            """returns the list of Amenity instances based on
+                the attribute amenity_ids that contains all Amenity.id
+                linked to the Place"""
+            from models import storage
+            amenities_ids = []
+            all_amenities = storage.all(Amenity)
+            for amenity in all_amenities.values():
+                if amenity.place_amenities == self.name:
+                    amenities_ids.append(amenity.id)
+            return amenities_ids
+
+        @amenities.setter
+        def amenities(self, obj):
+            """handles append method for adding an Amenity.id
+                to the attribute amenity_ids"""
+            if isinstance(obj, Amenity):
+                self.amenities.append(obj.id)
