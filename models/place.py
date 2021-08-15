@@ -23,6 +23,7 @@ place_amenity = Table('place_amenity', Base.metadata,
                              nullable=False)
                       )
 
+
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = "places"
@@ -66,7 +67,7 @@ class Place(BaseModel, Base):
             amenities_ids = []
             all_amenities = storage.all(Amenity)
             for amenity in all_amenities.values():
-                if amenity.place_id  == self.id:
+                if amenity.place_id == self.id:
                     amenities_ids.append(amenity.id)
             return amenities_ids
 
