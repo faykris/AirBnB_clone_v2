@@ -1,13 +1,15 @@
 #!/usr/bin/python3
-"""1. Compress before sending - module"""
+"""3. Full deployment - module"""
 
+from os import path
 from datetime import datetime
-from fabric.api import local
+from fabric.api import local, env, put, run
+
+env.hosts = ['ubuntu@34.138.47.45', 'ubuntu@35.237.57.6']
 
 
 def do_pack():
     """do_pack - function"""
-
     try:
         local("mkdir -p versions")
         n_time = datetime.now()
@@ -23,8 +25,29 @@ def do_pack():
 
 def do_deploy(archive_path):
     """do_deploy - function"""
+    if not path.exists(archive_path):
+        return False
     try:
-        local("stat {}".format(archive_path))
+        ext_nam_file = archive_path.split("/")[1]
+        nam_file = ext_nam_file.split(".")[0]
+        put(archive_path, "/tmp/")
+        tmp_ext_nam_file = "/tmp/{}".format(ext_nam_file)
+        path_name_file = "/data/web_static/releases/{}/".format(nam_file)
+        run("mkdir -p {}".format(path_name_file))
+        run("tar -xzf {} -C {}".format(tmp_ext_nam_file, path_name_file))
+        run("rm " + tmp_ext_nam_file)
+        run("mv " + path_name_file + "web_static/* " + path_name_file)
+        run("rm -rf /data/web_static/current")
+        run("ln -s {} /data/web_static/current".format(path_name_file))
+        print("New version deployed!")
+        return True
     except:
         return False
-    return False
+
+
+def deploy():
+    """deply - function"""
+    archive_path = do_pack()
+    if archive_path is None:
+        return False
+    return do_deploy(archive_path)
