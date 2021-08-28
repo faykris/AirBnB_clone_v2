@@ -13,10 +13,6 @@ exec { 'create_symlink':
   command  => 'ln -s /data/web_static/releases/test /data/web_static/current',
   provider => shell,
 }
-exec { 'change_owner':
-  command  => 'chown -R ubuntu:ubuntu /data/',
-  provider => shell,
-}
 exec { 'append_location':
   command  => 'sed -i "/:80 default_server/a location /hbnb_static/ {\n\talias /data/web_static/current/;\n}\n" /etc/nginx/sites-available/default',
   provider => shell,
