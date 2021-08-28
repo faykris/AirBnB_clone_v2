@@ -1,6 +1,10 @@
 # 5. Puppet for setup
 # Redo the task #0 but by using Puppet:
 
+exec { 'nginx_install':
+  command  => 'apt-get -y update; apt-get -y install nginx',
+  provider => shell,
+}
 exec { 'make_directories':
   command  => 'mkdir -p /data/web_static/releases/; mkdir -p /data/web_static/shared/; mkdir -p /data/web_static/releases/test/;',
   provider => shell,
@@ -10,7 +14,11 @@ exec { 'move_index_page':
   provider => shell,
 }
 exec { 'create_symlink':
-  command  => 'ln -s /data/web_static/releases/test /data/web_static/current',
+  command  => 'ln -sf /data/web_static/releases/test /data/web_static/current',
+  provider => shell,
+}
+exec { 'change_owner':
+  command  => 'chown -R ubuntu:ubuntu /data',
   provider => shell,
 }
 exec { 'append_location':
