@@ -6,3 +6,7 @@ main_delete.py
 main_42.py
 main_42_0.sql
 /versions/*
+web_flask/venv
+web_flask/__pycache__
+main.py
+/web_flask/templates/w3c_validator.py
