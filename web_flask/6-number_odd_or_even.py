@@ -47,9 +47,11 @@ def num_template(n):
 def even_odd(n):
     """even_odd - function"""
     if n % 2 == 0:
-        return render_template('6-number_odd_or_even.html', number=n, even_odd='even')
+        return render_template(
+            '6-number_odd_or_even.html', number=n, even_odd='even')
     else:
-        return render_template('6-number_odd_or_even.html', number=n, even_odd='odd')
+        return render_template(
+            '6-number_odd_or_even.html', number=n, even_odd='odd')
 
 
 hello.run(debug=True, host='0.0.0.0', port=5000)
