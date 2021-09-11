@@ -7,7 +7,7 @@ hello = Flask(__name__)
 
 @hello.route('/', strict_slashes=False)
 def hello_flask():
-    """index - function"""
+    """hello_flask - function"""
     return 'Hello HBNB!'
 
 
